@@ -8,12 +8,7 @@ def fibonacci():
     Generates an infinite sequence of fibonacci numbers
     """
 
-    fibs = deque()
+    fibs = deque(maxlen=2)
     while True:
-        if len(fibs) < 2:
-            fib = len(fibs) + 1
-        else:
-            fib = sum(fibs)
-            fibs.popleft()
-        fibs.append(fib)
-        yield fib
+        fibs.append(sum(fibs) if len(fibs) >= 2 else len(fibs) + 1)
+        yield fibs[-1]
