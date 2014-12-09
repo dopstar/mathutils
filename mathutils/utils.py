@@ -10,8 +10,21 @@ def fibonacci():
 
     fibs = deque(maxlen=2)
     while True:
-        fibs.append(sum(fibs) if len(fibs) == 2 else len(fibs) + 1)
+        fibs.append(sum(fibs) if len(fibs) == 2 else len(fibs))
         yield fibs[-1]
+
+
+def is_fibonacci(number):
+    """
+    Checks whether the given number is a fibonacci number
+    """
+
+    is_fib = False
+    for fib in fibonacci():
+        is_fib = fib == number
+        if is_fib or fib > number:
+            break
+    return is_fib
 
 
 def zeckendorf(number):
@@ -29,7 +42,7 @@ def zeckendorf(number):
     candidate = sum(zeckendorf_numbers)
     while candidate < number:
         for fib in reversed(fibonacci_numbers):
-            if candidate + fib <= number and fib not in zeckendorf_numbers:
+            if candidate + fib <= number and fib not in zeckendorf_numbers and fib > 0:
                 zeckendorf_numbers.append(fib)
                 candidate = sum(zeckendorf_numbers)
     return zeckendorf_numbers
