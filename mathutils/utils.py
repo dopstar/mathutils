@@ -1,7 +1,7 @@
 """ Some math utilities """
 
 import math
-from collections import deque, Counter
+from collections import Counter
 
 from constants import gr
 
@@ -11,10 +11,12 @@ def fibonacci():
     Generates an infinite sequence of fibonacci numbers
     """
 
-    fibs = deque(maxlen=2)
+    F_0, F_1 = 0, 1
+    yield F_0
+    yield F_1
     while True:
-        fibs.append(sum(fibs) if len(fibs) == 2 else len(fibs))
-        yield fibs[-1]
+        F_0, F_1 = F_1, F_0 + F_1
+        yield F_1
 
 
 def is_fibonacci(number):
