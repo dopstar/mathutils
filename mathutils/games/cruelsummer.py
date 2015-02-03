@@ -56,4 +56,6 @@ class CruelSummer(object):
         print '  = \033[0;33m{0}\033[0m'.format(self.answer)
         print '-' * 13
 
+if __name__ == '__main__':
+    CruelSummer().play()
 

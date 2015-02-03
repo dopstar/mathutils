@@ -59,3 +59,7 @@ class Andrew(object):
                 zeckendorf_sequence.append(zkd)
             os.system('clear')
         print "Your number that you have picked is: {0}".format(sum(zeckendorf_sequence))
+
+if __name__ == '__main__':
+    Andrew().play()
+
