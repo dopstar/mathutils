@@ -86,3 +86,18 @@ def zeckendorf_to_decimal(representation):
     for n, digit in zip(xrange(len(representation) + 1, 1, -1), (int(r) for r in representation)):
         number += digit * F(n)
     return number
+
+
+def factorial(n):
+    """
+    Calculates the factorial of the non-negative integer
+    """
+
+    if not isinstance(n, (int, long)):
+        raise TypeError("The input must be an integer")
+    if n < 0:
+        raise ValueError("The input must not be negative")
+    if n == 0:
+        return 1
+    return n * factorial(n - 1)
+
