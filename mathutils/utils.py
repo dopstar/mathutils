@@ -1,6 +1,7 @@
 """ Some math utilities """
 
 import math
+import time
 from collections import Counter
 
 from constants import gr
@@ -101,3 +102,43 @@ def factorial(n):
         return 1
     return n * factorial(n - 1)
 
+
+def decode_rsa_id(id_number):
+    """
+    Validate and decode RSA id number for Republic of South Africa
+
+    :param id_number: ID Number string.
+    Returns: Object
+    """
+    if not isinstance(id_number, basestring):
+        raise TypeError("The ID number should be a string not of type: %s" % str(type(id_number)))
+    params = {}
+    id_number = ''.join(c for c in id_number if c)
+    if not len(id_number) == 13:
+        raise ValueError("The ID number should be of length 13.")
+
+    date_of_birth = id_number[:6]
+    try:
+        tt = time.strptime(date_of_birth, '%y%m%d')  # time tuple
+        if not isinstance(tt, time.struct_time):
+            raise ValueError
+    except ValueError:
+        raise ValueError('First 6 digits must be the valid date.')
+
+    valid = 10 - int(
+        str(sum(int(i) for i in id_number[:-1:2] + str(2 * int(id_number[1::2]))))[-1]
+    ) % 10 == int(id_number[-1])
+
+    if not valid:
+        raise ValueError("The ID number is not valid.")
+
+    gender = 'Male' if int(id_number[6]) > 4 else 'Female'
+    nationality = 'South African' if not int(id_number[10]) else 'Unknown'
+    params = {
+        'id': id_number,
+        'dob': date_of_birth,
+        'is_valid': valid,
+        'nationality': nationality,
+        'gender': gender
+    }
+    return type('ID#{0}'.format(id_number), (), params)
